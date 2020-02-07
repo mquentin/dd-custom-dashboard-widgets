@@ -7494,8 +7494,13 @@ if (inBrowser) {
 //
 
 var script = {
+  props: {
+    name: {
+      default: "Jane Doe"
+    }
+  },
   data() {
-    return { name: 'Jane Doe' }
+    return { name: this.name };
   }
 };
 
@@ -7637,11 +7642,11 @@ var __vue_staticRenderFns__ = [];
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-521cb64f_0", { source: "h1[data-v-521cb64f]{color:red}", map: undefined, media: undefined });
+    inject("data-v-0af14364_0", { source: "h1[data-v-0af14364]{color:red}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-521cb64f";
+  const __vue_scope_id__ = "data-v-0af14364";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
@@ -7665,10 +7670,12 @@ var __vue_staticRenderFns__ = [];
     undefined
   );
 
-function render(root) {
+function render(root, preferences) {
   new Vue({
-    render: h => h(__vue_component__),
+    render: h => h(__vue_component__, { props: preferences })
   }).$mount(root);
 }
 
-export { render };
+const preferencesDefinition = [{ name: "name", default: "Jane Doe" }];
+
+export { preferencesDefinition, render };

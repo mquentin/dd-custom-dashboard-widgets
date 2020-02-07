@@ -4,10 +4,15 @@
 
 <script>
 export default {
+  props: {
+    name: {
+      default: "Jane Doe"
+    }
+  },
   data() {
-    return { name: 'Jane Doe' }
+    return { name: this.name };
   }
-}
+};
 </script>
 
 <style scoped>

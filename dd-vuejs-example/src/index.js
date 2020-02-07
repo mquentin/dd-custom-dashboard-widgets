@@ -1,8 +1,10 @@
-import Vue from 'vue'
-import MyComponent from './MyComponent.vue'
+import Vue from "vue";
+import MyComponent from "./MyComponent.vue";
 
-export function render(root) {
+export function render(root, preferences) {
   new Vue({
-    render: h => h(MyComponent),
-  }).$mount(root)
+    render: h => h(MyComponent, { props: preferences })
+  }).$mount(root);
 }
+
+export const preferencesDefinition = [{ name: "name", default: "Jane Doe" }];
