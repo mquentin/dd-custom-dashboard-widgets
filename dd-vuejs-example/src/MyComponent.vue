@@ -1,9 +1,14 @@
 <template>
   <div>
-    <h1>Hello {{ dName }}</h1>
+    <h1>{{ dTitle }}</h1>
     <ul id="example-1">
       <li v-for="l  in dLogIndex.indexes" v-bind:key="l.scopeId">
         {{ l.name }}
+          <ul>
+              <li>
+                 {{ l.query }}
+              </li>
+          </ul>
       </li>
   </ul>
 </div>
@@ -13,8 +18,8 @@
     
 export default {
   props: {
-    name: {
-      default: "Jane Doe"
+    title: {
+      default: "Title"
     },
     logIndex:{
       default: {}
@@ -22,7 +27,7 @@ export default {
   },
   data() {
     return { 
-      dName: this.name, 
+      dTitle: this.title, 
       dLogIndex: this.logIndex
       };
   }
@@ -31,6 +36,6 @@ export default {
 
 <style scoped>
 h1 {
-  color: red;
+  color: rebeccapurple;
 }
 </style>
