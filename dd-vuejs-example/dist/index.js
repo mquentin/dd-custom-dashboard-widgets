@@ -7522,7 +7522,7 @@ var script = {
   },
   methods: {
     async fetchMonitors () {
-      const response = await fetch(`/api/v1/monitor/search?start=0&count=50`);
+      const response = await fetch(`/api/v1/monitor/search?start=0&per_page=50&sort=name,asc`);
       this.monitors = (await response.json()).monitors;
     }
   }
@@ -7666,11 +7666,11 @@ var __vue_staticRenderFns__ = [];
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-c3bcfce0_0", { source: "h1[data-v-c3bcfce0]{color:#663399}", map: undefined, media: undefined });
+    inject("data-v-39810d17_0", { source: "h1[data-v-39810d17]{color:#663399}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-c3bcfce0";
+  const __vue_scope_id__ = "data-v-39810d17";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */

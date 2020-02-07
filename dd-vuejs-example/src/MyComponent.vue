@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     async fetchMonitors () {
-      const response = await fetch(`/api/v1/monitor/search?start=0&count=50`)
+      const response = await fetch(`/api/v1/monitor/search?start=0&per_page=50&sort=name,asc`)
       this.monitors = (await response.json()).monitors;
     }
   }
