@@ -3,7 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import serve from 'rollup-plugin-serve'
 
-const isWatch = process.env.NODE_ENV === `watch`
+const isWatch = process.env.WATCH === `true`
 
 var config = {
   input: 'src/index.js',
@@ -13,7 +13,10 @@ var config = {
   },
   plugins: [
     resolve(),
-    vue()
+    vue(),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(process.env.BUILD)
+    })
   ]
 }
 
@@ -25,12 +28,6 @@ if (isWatch) {
     openPage: '/index.html',
     contentBase: ['dist']
   }))
-}
-else{
-  config.plugins.push(
-    replace({
-      'process.env.NODE_ENV': JSON.stringify(process.env.BUILD)
-    }))
 }
 
 export default config 
