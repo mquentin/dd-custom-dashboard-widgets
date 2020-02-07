@@ -7503,56 +7503,27 @@ if (inBrowser) {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-    
+
 var script = {
   props: {
     name: {
       default: "Custom widget title"
     },
+    selectedMonitor: Number
   },
   data() {
     return {
-      dName: this.name,
-      dLogIndex: null,
-      dMonitors: null,
+      monitors: null,
     };
   },
   mounted () {
     this.fetchMonitors();
   },
   methods: {
-    async fetchLogs() {
-      const response = await fetch(`/api/v1/logs/indexes?type=logs`);
-      this.dLogIndex = await response.json();
-    },
     async fetchMonitors () {
       const response = await fetch(`/api/v1/monitor/search?start=0&count=50`);
-      this.dMonitors = await response.json();
+      this.monitors = (await response.json()).monitors;
     }
   }
 };
@@ -7689,17 +7660,17 @@ function addStyle(id, css) {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.dName))]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/monitor/search?start=0&count=50")]),_vm._v(" "),_c('button',{on:{"click":_vm.fetchMonitors}},[_vm._v("Refresh")]),_vm._v(" "),(_vm.dMonitors)?_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-1"}},[_c('ul',_vm._l((_vm.dMonitors.monitors),function(m){return _c('li',{key:m.id},[_vm._v("\n          "+_vm._s(m.id)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(m.status)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.creator)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.query)+"\n                ")])])])}),0)]):_vm._e(),_vm._v(" "),_c('h2',[_vm._v("/api/v1/logs/indexes?type=logs")]),_vm._v(" "),(_vm.dLogIndex)?_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-2"}},[_c('ul',_vm._l((_vm.dLogIndex.indexes),function(l){return _c('li',{key:l.scopeId},[_vm._v("\n          "+_vm._s(l.name)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(l.query)+"\n                ")])])])}),0)]):_vm._e()])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.name))]),_vm._v(" "),(_vm.monitors)?_c('div',{staticStyle:{"height":"100px","overflow":"scroll"}},[_c('select',{domProps:{"value":_vm.selectedMonitor},on:{"change":function($event){return _vm.$emit('update:selectedMonitor', $event.target.value)}}},[_c('option',{attrs:{"disabled":"","value":""}},[_vm._v("Please select one")]),_vm._v(" "),_vm._l((_vm.monitors),function(monitor){return _c('option',{domProps:{"value":monitor.id}},[_vm._v("\n      "+_vm._s(monitor.name)+"\n      ")])})],2),_vm._v(" "),_c('span',[_vm._v("Selected: "+_vm._s(_vm.selectedMonitor))])]):_vm._e()])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-3b63ce52_0", { source: "h1[data-v-3b63ce52]{color:#663399}", map: undefined, media: undefined });
+    inject("data-v-c3bcfce0_0", { source: "h1[data-v-c3bcfce0]{color:#663399}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-3b63ce52";
+  const __vue_scope_id__ = "data-v-c3bcfce0";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
@@ -7730,6 +7701,10 @@ function render(root, api) {
 
   api.onPreferencesChange(newPreferences => {
     Object.assign(vm.$props, newPreferences);
+  });
+
+  vm.$on('update:selectedMonitor', (selectedMonitor) => {
+    api.setPreference('selectedMonitor', selectedMonitor);
   });
 
   api.onDestroy(() => {

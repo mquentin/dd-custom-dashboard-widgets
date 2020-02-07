@@ -10,6 +10,10 @@ export function render(root, api) {
     Object.assign(vm.$props, newPreferences)
   })
 
+  vm.$on('update:selectedMonitor', (selectedMonitor) => {
+    api.setPreference('selectedMonitor', selectedMonitor)
+  })
+
   api.onDestroy(() => {
     vm.$destroy()
   })
