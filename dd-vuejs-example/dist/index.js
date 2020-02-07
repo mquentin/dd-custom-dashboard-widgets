@@ -7544,7 +7544,7 @@ var script = {
   methods: {
     async fetchMonitors() {
       const response = await fetch(
-        `/api/v1/monitor/search?start=0&count=50&text=type:metric`
+        `/api/v1/monitor/search?start=0&per_page=50&sort=name,asc&text=type:metric`
       );
       this.monitors = (await response.json()).monitors;
     },
@@ -7702,11 +7702,11 @@ var __vue_staticRenderFns__ = [];
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-7b6d0a1b_0", { source: "h1[data-v-7b6d0a1b],h2[data-v-7b6d0a1b],h3[data-v-7b6d0a1b]{color:#663399}.dd-vue-widget[data-v-7b6d0a1b]{padding:10px;position:absolute;top:0;bottom:0;left:0;right:0;background-size:cover}", map: undefined, media: undefined });
+    inject("data-v-7b91a804_0", { source: "h1[data-v-7b91a804],h2[data-v-7b91a804],h3[data-v-7b91a804]{color:#663399}.dd-vue-widget[data-v-7b91a804]{padding:10px;position:absolute;top:0;bottom:0;left:0;right:0;background-size:cover}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-7b6d0a1b";
+  const __vue_scope_id__ = "data-v-7b91a804";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */

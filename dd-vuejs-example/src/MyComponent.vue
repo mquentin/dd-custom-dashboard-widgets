@@ -54,7 +54,7 @@ export default {
   methods: {
     async fetchMonitors() {
       const response = await fetch(
-        `/api/v1/monitor/search?start=0&count=50&text=type:metric`
+        `/api/v1/monitor/search?start=0&per_page=50&sort=name,asc&text=type:metric`
       );
       this.monitors = (await response.json()).monitors;
     },
