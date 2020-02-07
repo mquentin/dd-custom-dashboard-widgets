@@ -8,9 +8,12 @@
             {{ m.id }}
               <ul>
                   <li>
+                    {{ m.status }}
+                  </li>
+                  <li>
                     {{ m.creator }}
                   </li>
-                              <li>
+                  <li>
                     {{ m.query }}
                   </li>
               </ul>
@@ -63,7 +66,7 @@ export default {
     fetch(`/api/v1/monitor/search?start=0&count=50`)
       .then(response => response.json())
       .then(json => {
-        this.monitors = json;
+        this.dMonitors = json;
     });
   }
 };

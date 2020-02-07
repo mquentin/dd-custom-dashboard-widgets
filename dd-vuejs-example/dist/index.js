@@ -7523,6 +7523,9 @@ if (inBrowser) {
 //
 //
 //
+//
+//
+//
 
     
 var script = {
@@ -7553,7 +7556,7 @@ var script = {
     fetch(`/api/v1/monitor/search?start=0&count=50`)
       .then(response => response.json())
       .then(json => {
-        this.monitors = json;
+        this.dMonitors = json;
     });
   }
 };
@@ -7690,17 +7693,17 @@ function addStyle(id, css) {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.dTitle))]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/monitor/search?start=0&count=50")]),_vm._v(" "),_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-1"}},[_c('ul',_vm._l((_vm.dMonitors.monitors),function(m){return _c('li',{key:m.id},[_vm._v("\n          "+_vm._s(m.id)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(m.creator)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.query)+"\n                ")])])])}),0)]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/logs/indexes?type=logs")]),_vm._v(" "),_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-2"}},[_c('ul',_vm._l((_vm.dLogIndex.indexes),function(l){return _c('li',{key:l.scopeId},[_vm._v("\n          "+_vm._s(l.name)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(l.query)+"\n                ")])])])}),0)])])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.dTitle))]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/monitor/search?start=0&count=50")]),_vm._v(" "),_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-1"}},[_c('ul',_vm._l((_vm.dMonitors.monitors),function(m){return _c('li',{key:m.id},[_vm._v("\n          "+_vm._s(m.id)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(m.status)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.creator)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.query)+"\n                ")])])])}),0)]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/logs/indexes?type=logs")]),_vm._v(" "),_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-2"}},[_c('ul',_vm._l((_vm.dLogIndex.indexes),function(l){return _c('li',{key:l.scopeId},[_vm._v("\n          "+_vm._s(l.name)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(l.query)+"\n                ")])])])}),0)])])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-36409ec3_0", { source: "h1[data-v-36409ec3]{color:#663399}", map: undefined, media: undefined });
+    inject("data-v-0403bd7d_0", { source: "h1[data-v-0403bd7d]{color:#663399}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-36409ec3";
+  const __vue_scope_id__ = "data-v-0403bd7d";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
