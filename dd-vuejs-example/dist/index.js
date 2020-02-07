@@ -380,12 +380,12 @@ var config = ({
   /**
    * Show production mode tip message on boot?
    */
-  productionTip: process.env.NODE_ENV !== 'production',
+  productionTip: "development" !== 'production',
 
   /**
    * Whether to enable devtools
    */
-  devtools: process.env.NODE_ENV !== 'production',
+  devtools: "development" !== 'production',
 
   /**
    * Whether to record perf
@@ -603,7 +603,7 @@ var tip = noop;
 var generateComponentTrace = (noop); // work around flow check
 var formatComponentName = (noop);
 
-if (process.env.NODE_ENV !== 'production') {
+{
   var hasConsole = typeof console !== 'undefined';
   var classifyRE = /(?:^|[-_])(\w)/g;
   var classify = function (str) { return str
@@ -720,7 +720,7 @@ Dep.prototype.depend = function depend () {
 Dep.prototype.notify = function notify () {
   // stabilize the subscriber list first
   var subs = this.subs.slice();
-  if (process.env.NODE_ENV !== 'production' && !config.async) {
+  if ( !config.async) {
     // subs aren't sorted in scheduler if not running async
     // we need to sort them now to make sure they fire in correct
     // order
@@ -1041,7 +1041,7 @@ function defineReactive$$1 (
         return
       }
       /* eslint-enable no-self-compare */
-      if (process.env.NODE_ENV !== 'production' && customSetter) {
+      if ( customSetter) {
         customSetter();
       }
       // #7981: for accessor properties without setter
@@ -1063,7 +1063,7 @@ function defineReactive$$1 (
  * already exist.
  */
 function set (target, key, val) {
-  if (process.env.NODE_ENV !== 'production' &&
+  if (
     (isUndef(target) || isPrimitive(target))
   ) {
     warn(("Cannot set reactive property on undefined, null, or primitive value: " + ((target))));
@@ -1079,7 +1079,7 @@ function set (target, key, val) {
   }
   var ob = (target).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
-    process.env.NODE_ENV !== 'production' && warn(
+     warn(
       'Avoid adding reactive properties to a Vue instance or its root $data ' +
       'at runtime - declare it upfront in the data option.'
     );
@@ -1098,7 +1098,7 @@ function set (target, key, val) {
  * Delete a property and trigger change if necessary.
  */
 function del (target, key) {
-  if (process.env.NODE_ENV !== 'production' &&
+  if (
     (isUndef(target) || isPrimitive(target))
   ) {
     warn(("Cannot delete reactive property on undefined, null, or primitive value: " + ((target))));
@@ -1109,7 +1109,7 @@ function del (target, key) {
   }
   var ob = (target).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
-    process.env.NODE_ENV !== 'production' && warn(
+     warn(
       'Avoid deleting properties on a Vue instance or its root $data ' +
       '- just set it to null.'
     );
@@ -1151,7 +1151,7 @@ var strats = config.optionMergeStrategies;
 /**
  * Options with restrictions
  */
-if (process.env.NODE_ENV !== 'production') {
+{
   strats.el = strats.propsData = function (parent, child, vm, key) {
     if (!vm) {
       warn(
@@ -1245,7 +1245,7 @@ strats.data = function (
 ) {
   if (!vm) {
     if (childVal && typeof childVal !== 'function') {
-      process.env.NODE_ENV !== 'production' && warn(
+       warn(
         'The "data" option should be a function ' +
         'that returns a per-instance value in component ' +
         'definitions.',
@@ -1308,7 +1308,7 @@ function mergeAssets (
 ) {
   var res = Object.create(parentVal || null);
   if (childVal) {
-    process.env.NODE_ENV !== 'production' && assertObjectType(key, childVal, vm);
+     assertObjectType(key, childVal, vm);
     return extend(res, childVal)
   } else {
     return res
@@ -1336,7 +1336,7 @@ strats.watch = function (
   if (childVal === nativeWatch) { childVal = undefined; }
   /* istanbul ignore if */
   if (!childVal) { return Object.create(parentVal || null) }
-  if (process.env.NODE_ENV !== 'production') {
+  {
     assertObjectType(key, childVal, vm);
   }
   if (!parentVal) { return childVal }
@@ -1367,7 +1367,7 @@ strats.computed = function (
   vm,
   key
 ) {
-  if (childVal && process.env.NODE_ENV !== 'production') {
+  if (childVal && "development" !== 'production') {
     assertObjectType(key, childVal, vm);
   }
   if (!parentVal) { return childVal }
@@ -1427,7 +1427,7 @@ function normalizeProps (options, vm) {
       if (typeof val === 'string') {
         name = camelize(val);
         res[name] = { type: null };
-      } else if (process.env.NODE_ENV !== 'production') {
+      } else {
         warn('props must be strings when using array syntax.');
       }
     }
@@ -1439,7 +1439,7 @@ function normalizeProps (options, vm) {
         ? val
         : { type: val };
     }
-  } else if (process.env.NODE_ENV !== 'production') {
+  } else {
     warn(
       "Invalid value for option \"props\": expected an Array or an Object, " +
       "but got " + (toRawType(props)) + ".",
@@ -1467,7 +1467,7 @@ function normalizeInject (options, vm) {
         ? extend({ from: key }, val)
         : { from: val };
     }
-  } else if (process.env.NODE_ENV !== 'production') {
+  } else {
     warn(
       "Invalid value for option \"inject\": expected an Array or an Object, " +
       "but got " + (toRawType(inject)) + ".",
@@ -1510,7 +1510,7 @@ function mergeOptions (
   child,
   vm
 ) {
-  if (process.env.NODE_ENV !== 'production') {
+  {
     checkComponents(child);
   }
 
@@ -1578,7 +1578,7 @@ function resolveAsset (
   if (hasOwn(assets, PascalCaseId)) { return assets[PascalCaseId] }
   // fallback to prototype chain
   var res = assets[id] || assets[camelizedId] || assets[PascalCaseId];
-  if (process.env.NODE_ENV !== 'production' && warnMissing && !res) {
+  if ( warnMissing && !res) {
     warn(
       'Failed to resolve ' + type.slice(0, -1) + ': ' + id,
       options
@@ -1624,11 +1624,7 @@ function validateProp (
     observe(value);
     toggleObserving(prevShouldObserve);
   }
-  if (
-    process.env.NODE_ENV !== 'production' &&
-    // skip validation for weex recycle-list child component props
-    !(false)
-  ) {
+  {
     assertProp(prop, key, value, vm, absent);
   }
   return value
@@ -1644,7 +1640,7 @@ function getPropDefaultValue (vm, prop, key) {
   }
   var def = prop.default;
   // warn against non-factory defaults for Object & Array
-  if (process.env.NODE_ENV !== 'production' && isObject(def)) {
+  if ( isObject(def)) {
     warn(
       'Invalid default value for prop "' + key + '": ' +
       'Props with type Object/Array must use a factory function ' +
@@ -1880,7 +1876,7 @@ function globalHandleError (err, vm, info) {
 }
 
 function logError (err, vm, info) {
-  if (process.env.NODE_ENV !== 'production') {
+  {
     warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
   }
   /* istanbul ignore else */
@@ -2003,7 +1999,7 @@ function nextTick (cb, ctx) {
 
 var initProxy;
 
-if (process.env.NODE_ENV !== 'production') {
+{
   var allowedGlobals = makeMap(
     'Infinity,undefined,NaN,isFinite,isNaN,' +
     'parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,' +
@@ -2127,7 +2123,7 @@ function _traverse (val, seen) {
 var mark;
 var measure;
 
-if (process.env.NODE_ENV !== 'production') {
+{
   var perf = inBrowser && window.performance;
   /* istanbul ignore if */
   if (
@@ -2197,7 +2193,7 @@ function updateListeners (
     old = oldOn[name];
     event = normalizeEvent(name);
     if (isUndef(cur)) {
-      process.env.NODE_ENV !== 'production' && warn(
+       warn(
         "Invalid handler for event \"" + (event.name) + "\": got " + String(cur),
         vm
       );
@@ -2277,7 +2273,7 @@ function extractPropsFromVNodeData (
   if (isDef(attrs) || isDef(props)) {
     for (var key in propOptions) {
       var altKey = hyphenate(key);
-      if (process.env.NODE_ENV !== 'production') {
+      {
         var keyInLowerCase = key.toLowerCase();
         if (
           key !== keyInLowerCase &&
@@ -2429,7 +2425,7 @@ function initInjections (vm) {
     toggleObserving(false);
     Object.keys(result).forEach(function (key) {
       /* istanbul ignore else */
-      if (process.env.NODE_ENV !== 'production') {
+      {
         defineReactive$$1(vm, key, result[key], function () {
           warn(
             "Avoid mutating an injected value directly since the changes will be " +
@@ -2438,8 +2434,6 @@ function initInjections (vm) {
             vm
           );
         });
-      } else {
-        defineReactive$$1(vm, key, result[key]);
       }
     });
     toggleObserving(true);
@@ -2473,7 +2467,7 @@ function resolveInject (inject, vm) {
           result[key] = typeof provideDefault === 'function'
             ? provideDefault.call(vm)
             : provideDefault;
-        } else if (process.env.NODE_ENV !== 'production') {
+        } else {
           warn(("Injection \"" + key + "\" not found"), vm);
         }
       }
@@ -2675,7 +2669,7 @@ function renderSlot (
   if (scopedSlotFn) { // scoped slot
     props = props || {};
     if (bindObject) {
-      if (process.env.NODE_ENV !== 'production' && !isObject(bindObject)) {
+      if ( !isObject(bindObject)) {
         warn(
           'slot v-bind without argument expects an Object',
           this
@@ -2751,7 +2745,7 @@ function bindObjectProps (
 ) {
   if (value) {
     if (!isObject(value)) {
-      process.env.NODE_ENV !== 'production' && warn(
+       warn(
         'v-bind without argument expects an Object or Array value',
         this
       );
@@ -2859,7 +2853,7 @@ function markStaticNode (node, key, isOnce) {
 function bindObjectListeners (data, value) {
   if (value) {
     if (!isPlainObject(value)) {
-      process.env.NODE_ENV !== 'production' && warn(
+       warn(
         'v-on without argument expects an Object value',
         this
       );
@@ -2910,7 +2904,7 @@ function bindDynamicKeys (baseObj, values) {
     var key = values[i];
     if (typeof key === 'string' && key) {
       baseObj[values[i]] = values[i + 1];
-    } else if (process.env.NODE_ENV !== 'production' && key !== '' && key !== null) {
+    } else if ( key !== '' && key !== null) {
       // null is a special value for explicitly removing a binding
       warn(
         ("Invalid value for dynamic directive argument (expected string or null): " + key),
@@ -3076,7 +3070,7 @@ function cloneAndMarkFunctionalResult (vnode, data, contextVm, options, renderCo
   var clone = cloneVNode(vnode);
   clone.fnContext = contextVm;
   clone.fnOptions = options;
-  if (process.env.NODE_ENV !== 'production') {
+  {
     (clone.devtoolsMeta = clone.devtoolsMeta || {}).renderContext = renderContext;
   }
   if (data.slot) {
@@ -3187,7 +3181,7 @@ function createComponent (
   // if at this stage it's not a constructor or an async component factory,
   // reject.
   if (typeof Ctor !== 'function') {
-    if (process.env.NODE_ENV !== 'production') {
+    {
       warn(("Invalid Component definition: " + (String(Ctor))), context);
     }
     return
@@ -3361,7 +3355,7 @@ function _createElement (
   normalizationType
 ) {
   if (isDef(data) && isDef((data).__ob__)) {
-    process.env.NODE_ENV !== 'production' && warn(
+     warn(
       "Avoid using observed data object as vnode data: " + (JSON.stringify(data)) + "\n" +
       'Always create fresh vnode data objects in each render!',
       context
@@ -3377,7 +3371,7 @@ function _createElement (
     return createEmptyVNode()
   }
   // warn against non-primitive key
-  if (process.env.NODE_ENV !== 'production' &&
+  if (
     isDef(data) && isDef(data.key) && !isPrimitive(data.key)
   ) {
     {
@@ -3407,7 +3401,7 @@ function _createElement (
     ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag);
     if (config.isReservedTag(tag)) {
       // platform built-in elements
-      if (process.env.NODE_ENV !== 'production' && isDef(data) && isDef(data.nativeOn)) {
+      if ( isDef(data) && isDef(data.nativeOn)) {
         warn(
           ("The .native modifier for v-on is only valid on components but it was used on <" + tag + ">."),
           context
@@ -3498,16 +3492,13 @@ function initRender (vm) {
   var parentData = parentVnode && parentVnode.data;
 
   /* istanbul ignore else */
-  if (process.env.NODE_ENV !== 'production') {
+  {
     defineReactive$$1(vm, '$attrs', parentData && parentData.attrs || emptyObject, function () {
       !isUpdatingChildComponent && warn("$attrs is readonly.", vm);
     }, true);
     defineReactive$$1(vm, '$listeners', options._parentListeners || emptyObject, function () {
       !isUpdatingChildComponent && warn("$listeners is readonly.", vm);
     }, true);
-  } else {
-    defineReactive$$1(vm, '$attrs', parentData && parentData.attrs || emptyObject, null, true);
-    defineReactive$$1(vm, '$listeners', options._parentListeners || emptyObject, null, true);
   }
 }
 
@@ -3551,7 +3542,7 @@ function renderMixin (Vue) {
       // return error render result,
       // or previous vnode to prevent render error causing blank component
       /* istanbul ignore else */
-      if (process.env.NODE_ENV !== 'production' && vm.$options.renderError) {
+      if ( vm.$options.renderError) {
         try {
           vnode = vm.$options.renderError.call(vm._renderProxy, vm.$createElement, e);
         } catch (e) {
@@ -3570,7 +3561,7 @@ function renderMixin (Vue) {
     }
     // return empty vnode in case the render function errored out
     if (!(vnode instanceof VNode)) {
-      if (process.env.NODE_ENV !== 'production' && Array.isArray(vnode)) {
+      if ( Array.isArray(vnode)) {
         warn(
           'Multiple root nodes returned from render function. Render function ' +
           'should return a single root node.',
@@ -3673,7 +3664,7 @@ function resolveAsyncComponent (
     });
 
     var reject = once(function (reason) {
-      process.env.NODE_ENV !== 'production' && warn(
+       warn(
         "Failed to resolve async component: " + (String(factory)) +
         (reason ? ("\nReason: " + reason) : '')
       );
@@ -3718,9 +3709,8 @@ function resolveAsyncComponent (
             timerTimeout = null;
             if (isUndef(factory.resolved)) {
               reject(
-                process.env.NODE_ENV !== 'production'
-                  ? ("timeout (" + (res.timeout) + "ms)")
-                  : null
+                 ("timeout (" + (res.timeout) + "ms)")
+                  
               );
             }
           }, res.timeout);
@@ -3867,7 +3857,7 @@ function eventsMixin (Vue) {
 
   Vue.prototype.$emit = function (event) {
     var vm = this;
-    if (process.env.NODE_ENV !== 'production') {
+    {
       var lowerCaseEvent = event.toLowerCase();
       if (lowerCaseEvent !== event && vm._events[lowerCaseEvent]) {
         tip(
@@ -4022,7 +4012,7 @@ function mountComponent (
   vm.$el = el;
   if (!vm.$options.render) {
     vm.$options.render = createEmptyVNode;
-    if (process.env.NODE_ENV !== 'production') {
+    {
       /* istanbul ignore if */
       if ((vm.$options.template && vm.$options.template.charAt(0) !== '#') ||
         vm.$options.el || el) {
@@ -4044,7 +4034,7 @@ function mountComponent (
 
   var updateComponent;
   /* istanbul ignore if */
-  if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
+  if ( config.performance && mark) {
     updateComponent = function () {
       var name = vm._name;
       var id = vm._uid;
@@ -4095,7 +4085,7 @@ function updateChildComponent (
   parentVnode,
   renderChildren
 ) {
-  if (process.env.NODE_ENV !== 'production') {
+  {
     isUpdatingChildComponent = true;
   }
 
@@ -4163,7 +4153,7 @@ function updateChildComponent (
     vm.$forceUpdate();
   }
 
-  if (process.env.NODE_ENV !== 'production') {
+  {
     isUpdatingChildComponent = false;
   }
 }
@@ -4243,7 +4233,7 @@ var index = 0;
 function resetSchedulerState () {
   index = queue.length = activatedChildren.length = 0;
   has = {};
-  if (process.env.NODE_ENV !== 'production') {
+  {
     circular = {};
   }
   waiting = flushing = false;
@@ -4309,7 +4299,7 @@ function flushSchedulerQueue () {
     has[id] = null;
     watcher.run();
     // in dev build, check and stop circular updates.
-    if (process.env.NODE_ENV !== 'production' && has[id] != null) {
+    if ( has[id] != null) {
       circular[id] = (circular[id] || 0) + 1;
       if (circular[id] > MAX_UPDATE_COUNT) {
         warn(
@@ -4395,7 +4385,7 @@ function queueWatcher (watcher) {
     if (!waiting) {
       waiting = true;
 
-      if (process.env.NODE_ENV !== 'production' && !config.async) {
+      if ( !config.async) {
         flushSchedulerQueue();
         return
       }
@@ -4445,9 +4435,8 @@ var Watcher = function Watcher (
   this.newDeps = [];
   this.depIds = new _Set();
   this.newDepIds = new _Set();
-  this.expression = process.env.NODE_ENV !== 'production'
-    ? expOrFn.toString()
-    : '';
+  this.expression =  expOrFn.toString()
+    ;
   // parse expression for getter
   if (typeof expOrFn === 'function') {
     this.getter = expOrFn;
@@ -4455,7 +4444,7 @@ var Watcher = function Watcher (
     this.getter = parsePath(expOrFn);
     if (!this.getter) {
       this.getter = noop;
-      process.env.NODE_ENV !== 'production' && warn(
+       warn(
         "Failed watching path: \"" + expOrFn + "\" " +
         'Watcher only accepts simple dot-delimited paths. ' +
         'For full control, use a function instead.',
@@ -4664,7 +4653,7 @@ function initProps (vm, propsOptions) {
     keys.push(key);
     var value = validateProp(key, propsOptions, propsData, vm);
     /* istanbul ignore else */
-    if (process.env.NODE_ENV !== 'production') {
+    {
       var hyphenatedKey = hyphenate(key);
       if (isReservedAttribute(hyphenatedKey) ||
           config.isReservedAttr(hyphenatedKey)) {
@@ -4684,8 +4673,6 @@ function initProps (vm, propsOptions) {
           );
         }
       });
-    } else {
-      defineReactive$$1(props, key, value);
     }
     // static props are already proxied on the component's prototype
     // during Vue.extend(). We only need to proxy props defined at
@@ -4706,7 +4693,7 @@ function initData (vm) {
     : data || {};
   if (!isPlainObject(data)) {
     data = {};
-    process.env.NODE_ENV !== 'production' && warn(
+     warn(
       'data functions should return an object:\n' +
       'https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function',
       vm
@@ -4719,7 +4706,7 @@ function initData (vm) {
   var i = keys.length;
   while (i--) {
     var key = keys[i];
-    if (process.env.NODE_ENV !== 'production') {
+    {
       if (methods && hasOwn(methods, key)) {
         warn(
           ("Method \"" + key + "\" has already been defined as a data property."),
@@ -4728,7 +4715,7 @@ function initData (vm) {
       }
     }
     if (props && hasOwn(props, key)) {
-      process.env.NODE_ENV !== 'production' && warn(
+       warn(
         "The data property \"" + key + "\" is already declared as a prop. " +
         "Use prop default value instead.",
         vm
@@ -4765,7 +4752,7 @@ function initComputed (vm, computed) {
   for (var key in computed) {
     var userDef = computed[key];
     var getter = typeof userDef === 'function' ? userDef : userDef.get;
-    if (process.env.NODE_ENV !== 'production' && getter == null) {
+    if ( getter == null) {
       warn(
         ("Getter is missing for computed property \"" + key + "\"."),
         vm
@@ -4787,7 +4774,7 @@ function initComputed (vm, computed) {
     // at instantiation here.
     if (!(key in vm)) {
       defineComputed(vm, key, userDef);
-    } else if (process.env.NODE_ENV !== 'production') {
+    } else {
       if (key in vm.$data) {
         warn(("The computed property \"" + key + "\" is already defined in data."), vm);
       } else if (vm.$options.props && key in vm.$options.props) {
@@ -4816,7 +4803,7 @@ function defineComputed (
       : noop;
     sharedPropertyDefinition.set = userDef.set || noop;
   }
-  if (process.env.NODE_ENV !== 'production' &&
+  if (
       sharedPropertyDefinition.set === noop) {
     sharedPropertyDefinition.set = function () {
       warn(
@@ -4852,7 +4839,7 @@ function createGetterInvoker(fn) {
 function initMethods (vm, methods) {
   var props = vm.$options.props;
   for (var key in methods) {
-    if (process.env.NODE_ENV !== 'production') {
+    {
       if (typeof methods[key] !== 'function') {
         warn(
           "Method \"" + key + "\" has type \"" + (typeof methods[key]) + "\" in the component definition. " +
@@ -4914,7 +4901,7 @@ function stateMixin (Vue) {
   dataDef.get = function () { return this._data };
   var propsDef = {};
   propsDef.get = function () { return this._props };
-  if (process.env.NODE_ENV !== 'production') {
+  {
     dataDef.set = function () {
       warn(
         'Avoid replacing instance root $data. ' +
@@ -4969,7 +4956,7 @@ function initMixin (Vue) {
 
     var startTag, endTag;
     /* istanbul ignore if */
-    if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
+    if ( config.performance && mark) {
       startTag = "vue-perf-start:" + (vm._uid);
       endTag = "vue-perf-end:" + (vm._uid);
       mark(startTag);
@@ -4991,10 +4978,8 @@ function initMixin (Vue) {
       );
     }
     /* istanbul ignore else */
-    if (process.env.NODE_ENV !== 'production') {
+    {
       initProxy(vm);
-    } else {
-      vm._renderProxy = vm;
     }
     // expose real self
     vm._self = vm;
@@ -5008,7 +4993,7 @@ function initMixin (Vue) {
     callHook(vm, 'created');
 
     /* istanbul ignore if */
-    if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
+    if ( config.performance && mark) {
       vm._name = formatComponentName(vm, false);
       mark(endTag);
       measure(("vue " + (vm._name) + " init"), startTag, endTag);
@@ -5077,7 +5062,7 @@ function resolveModifiedOptions (Ctor) {
 }
 
 function Vue (options) {
-  if (process.env.NODE_ENV !== 'production' &&
+  if (
     !(this instanceof Vue)
   ) {
     warn('Vue is a constructor and should be called with the `new` keyword');
@@ -5146,7 +5131,7 @@ function initExtend (Vue) {
     }
 
     var name = extendOptions.name || Super.options.name;
-    if (process.env.NODE_ENV !== 'production' && name) {
+    if ( name) {
       validateComponentName(name);
     }
 
@@ -5229,7 +5214,7 @@ function initAssetRegisters (Vue) {
         return this.options[type + 's'][id]
       } else {
         /* istanbul ignore if */
-        if (process.env.NODE_ENV !== 'production' && type === 'component') {
+        if ( type === 'component') {
           validateComponentName(id);
         }
         if (type === 'component' && isPlainObject(definition)) {
@@ -5386,7 +5371,7 @@ function initGlobalAPI (Vue) {
   // config
   var configDef = {};
   configDef.get = function () { return config; };
-  if (process.env.NODE_ENV !== 'production') {
+  {
     configDef.set = function () {
       warn(
         'Do not replace the Vue.config object, set individual fields instead.'
@@ -5668,7 +5653,7 @@ function query (el) {
   if (typeof el === 'string') {
     var selected = document.querySelector(el);
     if (!selected) {
-      process.env.NODE_ENV !== 'production' && warn(
+       warn(
         'Cannot find element: ' + el
       );
       return document.createElement('div')
@@ -5930,7 +5915,7 @@ function createPatchFunction (backend) {
     var children = vnode.children;
     var tag = vnode.tag;
     if (isDef(tag)) {
-      if (process.env.NODE_ENV !== 'production') {
+      {
         if (data && data.pre) {
           creatingElmInVPre++;
         }
@@ -5958,7 +5943,7 @@ function createPatchFunction (backend) {
         insert(parentElm, vnode.elm, refElm);
       }
 
-      if (process.env.NODE_ENV !== 'production' && data && data.pre) {
+      if ( data && data.pre) {
         creatingElmInVPre--;
       }
     } else if (isTrue(vnode.isComment)) {
@@ -6046,7 +6031,7 @@ function createPatchFunction (backend) {
 
   function createChildren (vnode, children, insertedVnodeQueue) {
     if (Array.isArray(children)) {
-      if (process.env.NODE_ENV !== 'production') {
+      {
         checkDuplicateKeys(children);
       }
       for (var i = 0; i < children.length; ++i) {
@@ -6180,7 +6165,7 @@ function createPatchFunction (backend) {
     // during leaving transitions
     var canMove = !removeOnly;
 
-    if (process.env.NODE_ENV !== 'production') {
+    {
       checkDuplicateKeys(newCh);
     }
 
@@ -6318,7 +6303,7 @@ function createPatchFunction (backend) {
       if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) { updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly); }
       } else if (isDef(ch)) {
-        if (process.env.NODE_ENV !== 'production') {
+        {
           checkDuplicateKeys(ch);
         }
         if (isDef(oldVnode.text)) { nodeOps.setTextContent(elm, ''); }
@@ -6369,7 +6354,7 @@ function createPatchFunction (backend) {
       return true
     }
     // assert node match
-    if (process.env.NODE_ENV !== 'production') {
+    {
       if (!assertNodeMatch(elm, vnode, inVPre)) {
         return false
       }
@@ -6392,7 +6377,7 @@ function createPatchFunction (backend) {
           if (isDef(i = data) && isDef(i = i.domProps) && isDef(i = i.innerHTML)) {
             if (i !== elm.innerHTML) {
               /* istanbul ignore if */
-              if (process.env.NODE_ENV !== 'production' &&
+              if (
                 typeof console !== 'undefined' &&
                 !hydrationBailed
               ) {
@@ -6418,7 +6403,7 @@ function createPatchFunction (backend) {
             // longer than the virtual children list.
             if (!childrenMatch || childNode) {
               /* istanbul ignore if */
-              if (process.env.NODE_ENV !== 'production' &&
+              if (
                 typeof console !== 'undefined' &&
                 !hydrationBailed
               ) {
@@ -6493,7 +6478,7 @@ function createPatchFunction (backend) {
             if (hydrate(oldVnode, vnode, insertedVnodeQueue)) {
               invokeInsertHook(vnode, insertedVnodeQueue, true);
               return oldVnode
-            } else if (process.env.NODE_ENV !== 'production') {
+            } else {
               warn(
                 'The client-side rendered virtual DOM tree is not matching ' +
                 'server-rendered content. This is likely caused by incorrect ' +
@@ -7566,7 +7551,7 @@ function enter (vnode, toggleDisplay) {
       : duration
   );
 
-  if (process.env.NODE_ENV !== 'production' && explicitEnterDuration != null) {
+  if ( explicitEnterDuration != null) {
     checkDuration(explicitEnterDuration, 'enter', vnode);
   }
 
@@ -7674,7 +7659,7 @@ function leave (vnode, rm) {
       : duration
   );
 
-  if (process.env.NODE_ENV !== 'production' && isDef(explicitLeaveDuration)) {
+  if ( isDef(explicitLeaveDuration)) {
     checkDuration(explicitLeaveDuration, 'leave', vnode);
   }
 
@@ -7901,7 +7886,7 @@ function actuallySetSelected (el, binding, vm) {
   var value = binding.value;
   var isMultiple = el.multiple;
   if (isMultiple && !Array.isArray(value)) {
-    process.env.NODE_ENV !== 'production' && warn(
+     warn(
       "<select multiple v-model=\"" + (binding.expression) + "\"> " +
       "expects an Array value for its binding, but got " + (Object.prototype.toString.call(value).slice(8, -1)),
       vm
@@ -8118,7 +8103,7 @@ var Transition = {
     }
 
     // warn multiple elements
-    if (process.env.NODE_ENV !== 'production' && children.length > 1) {
+    if ( children.length > 1) {
       warn(
         '<transition> can only be used on a single element. Use ' +
         '<transition-group> for lists.',
@@ -8129,7 +8114,7 @@ var Transition = {
     var mode = this.mode;
 
     // warn invalid mode
-    if (process.env.NODE_ENV !== 'production' &&
+    if (
       mode && mode !== 'in-out' && mode !== 'out-in'
     ) {
       warn(
@@ -8262,7 +8247,7 @@ var TransitionGroup = {
           children.push(c);
           map[c.key] = c
           ;(c.data || (c.data = {})).transition = transitionData;
-        } else if (process.env.NODE_ENV !== 'production') {
+        } else {
           var opts = c.componentOptions;
           var name = opts ? (opts.Ctor.options.name || opts.tag || '') : c.tag;
           warn(("<transition-group> children must be keyed: <" + name + ">"));
@@ -8422,18 +8407,14 @@ if (inBrowser) {
     if (config.devtools) {
       if (devtools) {
         devtools.emit('init', Vue);
-      } else if (
-        process.env.NODE_ENV !== 'production' &&
-        process.env.NODE_ENV !== 'test'
-      ) {
+      } else {
         console[console.info ? 'info' : 'log'](
           'Download the Vue Devtools extension for a better development experience:\n' +
           'https://github.com/vuejs/vue-devtools'
         );
       }
     }
-    if (process.env.NODE_ENV !== 'production' &&
-      process.env.NODE_ENV !== 'test' &&
+    if (
       config.productionTip !== false &&
       typeof console !== 'undefined'
     ) {
@@ -8450,15 +8431,29 @@ if (inBrowser) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
+    
 var script = {
   props: {
     name: {
       default: "Jane Doe"
+    },
+    logIndex:{
+      default: {}
     }
   },
   data() {
-    return { name: this.name };
+    return { 
+      dName: this.name, 
+      dLogIndex: this.logIndex
+      };
   }
 };
 
@@ -8598,7 +8593,20 @@ var __vue_render__ = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("h1", [_vm._v("Hello " + _vm._s(_vm.name))])
+  return _c("div", [
+    _c("h1", [_vm._v("Hello " + _vm._s(_vm.dName))]),
+    _vm._v(" "),
+    _c(
+      "ul",
+      { attrs: { id: "example-1" } },
+      _vm._l(_vm.dLogIndex.indexes, function(l) {
+        return _c("li", { key: l.scopeId }, [
+          _vm._v("\n        " + _vm._s(l.name) + "\n      ")
+        ])
+      }),
+      0
+    )
+  ])
 };
 var __vue_staticRenderFns__ = [];
 __vue_render__._withStripped = true;
@@ -8606,11 +8614,11 @@ __vue_render__._withStripped = true;
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-cb91a44a_0", { source: "\nh1[data-v-cb91a44a] {\n  color: red;\n}\n", map: {"version":3,"sources":["/Users/maxime.quentin/devProjects/dd-custom-dashboard-widgets/dd-vuejs-example/src/MyComponent.vue"],"names":[],"mappings":";AAkBA;EACA,UAAA;AACA","file":"MyComponent.vue","sourcesContent":["<template>\n  <h1>Hello {{ name }}</h1>\n</template>\n\n<script>\nexport default {\n  props: {\n    name: {\n      default: \"Jane Doe\"\n    }\n  },\n  data() {\n    return { name: this.name };\n  }\n};\n</script>\n\n<style scoped>\nh1 {\n  color: red;\n}\n</style>\n"]}, media: undefined });
+    inject("data-v-6c37da6f_0", { source: "\nh1[data-v-6c37da6f] {\n  color: red;\n}\n", map: {"version":3,"sources":["/Users/maxime.quentin/devProjects/dd-custom-dashboard-widgets/dd-vuejs-example/src/MyComponent.vue"],"names":[],"mappings":";AAgCA;EACA,UAAA;AACA","file":"MyComponent.vue","sourcesContent":["<template>\n  <div>\n    <h1>Hello {{ dName }}</h1>\n    <ul id=\"example-1\">\n      <li v-for=\"l  in dLogIndex.indexes\" v-bind:key=\"l.scopeId\">\n        {{ l.name }}\n      </li>\n  </ul>\n</div>\n</template>\n\n<script>\n    \nexport default {\n  props: {\n    name: {\n      default: \"Jane Doe\"\n    },\n    logIndex:{\n      default: {}\n    }\n  },\n  data() {\n    return { \n      dName: this.name, \n      dLogIndex: this.logIndex\n      };\n  }\n};\n</script>\n\n<style scoped>\nh1 {\n  color: red;\n}\n</style>\n"]}, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-cb91a44a";
+  const __vue_scope_id__ = "data-v-6c37da6f";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
@@ -8635,6 +8643,14 @@ __vue_render__._withStripped = true;
   );
 
 function render(root, preferences) {
+
+  if(!preferences || !preferences.logIndex){
+    preferences = {};
+
+    //preferences.logIndex = (await fetch("/api/v1/logs/indexes?type=logs")).json();
+    preferences.logIndex = {"locked":false,"historicalIndexes":[{"from":"2019-11-01T04:00:00Z","readDataAccess":true,"scopeId":"69041","name":"esr-2020-02-06","to":"2020-02-06T22:00:00Z"},{"from":"2019-10-01T04:00:00Z","readDataAccess":true,"scopeId":"63768","name":"audit-bnc-oct-dec-customer-request","to":"2020-01-01T05:00:00Z"},{"from":"2020-01-02T19:00:00Z","readDataAccess":true,"scopeId":"65952","name":"incident-es-events-master-logs","to":"2020-01-03T00:00:00Z"},{"from":"2019-12-20T17:00:00Z","readDataAccess":true,"scopeId":"63457","name":"rrevol-ls-144-logs-api","to":"2019-12-20T18:00:00Z"},{"from":"2020-01-06T23:00:00Z","readDataAccess":true,"scopeId":"66982","name":"jan-07-jan-07-service-logs-api-querytype-insights","to":"2020-01-07T22:59:59.999Z"},{"from":"2020-01-06T23:00:00Z","readDataAccess":true,"scopeId":"66988","name":"jan-07-jan-07-7pm-service-logs-api-querytype-insights","to":"2020-01-07T18:00:00Z"},{"from":"2020-01-17T09:00:00Z","readDataAccess":true,"scopeId":"68016","name":"jan-17-jan-18-service-rawls-extract-kafka-connect","to":"2020-01-17T23:59:00Z"},{"from":"2020-01-21T20:04:10.951Z","readDataAccess":true,"scopeId":"68932","name":"jan-21-jan-21-http-status-code-413-http-url-details-path-api-v1-series","to":"2020-01-21T20:08:16.228Z"},{"from":"2020-01-15T17:00:00Z","readDataAccess":true,"scopeId":"66880","name":"tsa-incident-3577","to":"2020-01-16T17:00:00Z"},{"from":"2020-01-14T09:11:24Z","readDataAccess":true,"scopeId":"64489","name":"test-gzip-1","to":"2020-01-14T10:11:26Z"},{"from":"2019-12-14T13:20:37.312Z","readDataAccess":true,"scopeId":"64246","name":"dec-14-dec-14-service-alerting-indexer-host-i-056baf9a89b7fd177","to":"2019-12-14T14:30:48.240Z"},{"from":"2017-05-03T22:00:00Z","readDataAccess":true,"scopeId":"68040","name":"screeboard-500-bad-type","to":"2017-05-06T21:00:00Z"}],"indexes":[{"name":"incident3143","dailyLimit":10000,"rateLimited":true,"scopeId":"55035","query":"\"No object (name: request) has been registered for this thread\"","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"vault","dailyLimit":null,"rateLimited":false,"scopeId":"13815","query":"vault_cluster:*","retention":60,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"inventories","dailyLimit":null,"rateLimited":false,"scopeId":"63534","query":"team:inventories service:(resource-edge OR resource-rewriter OR resource-compliance-evaluator OR compliance-log-generator OR resource-relationship-writer)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"k8s-audit","dailyLimit":null,"rateLimited":false,"scopeId":"13814","query":"service:(k8s-audit OR kube-apiserver-audit)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"metrics-intake","dailyLimit":null,"rateLimited":false,"scopeId":"6","query":"service:(contexts-rewriter OR hms-resolver OR nicky OR propjoe OR pylae OR quota-limiter OR slicer-assigner OR slicer-distributor OR twemproxy-nanny OR reese OR val) AND datacenter:(us1.prod.dog OR eu1.prod.dog)","retention":7,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"monitor-app","dailyLimit":50000000,"rateLimited":false,"scopeId":"17737","query":"service:(hucklebuck OR monitor-graph-writer OR monitor-history-reader OR monitor-history-writer OR monitor-uptime-writer OR alerting-indexer OR elasticsearch-uptimes OR elasticsearch-downtimes OR elasticsearch-monitors OR monitor-uptime-writer-canary OR alerting-downtime-matcher-web)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"security","dailyLimit":null,"rateLimited":false,"scopeId":"9983","query":"(service:(appgate OR stackdriver OR go-audit OR trident OR cujo OR cujo-api OR cujo-agent OR pcalertqueries OR ddclair OR clair OR security-cloudwatch-logs OR tenable-sc OR security_center_sidecar OR op-scim OR azure OR security-lambdas OR supportbot OR jamf OR trident-monitor) OR @aws.awslogs.owner:013910733512)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"mortar","dailyLimit":150000000,"rateLimited":false,"scopeId":"21919","query":"( env:(prod OR michelada) AND (service:*mortar* OR (service:*sso* AND team:data-eng-infra)))","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"driveline","dailyLimit":null,"rateLimited":false,"scopeId":"60012","query":"source:driveline","retention":2,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"k8s-platform","dailyLimit":null,"rateLimited":false,"scopeId":"13813","query":"(role:(kube-node OR kube-etcd OR etcd OR apiserver OR controller OR scheduler) -pod_name:* -service:kubernetes -source:undefined -filename:0.log -service:elasticsearch -service:dogweb -service:ingress-haproxy-agent-stable -service:logs-indexation -service:synthetics*) OR (app:(cluster-autoscaler OR metrics-server OR coredns OR admission-controller OR datadog-kubernetes-watchdog OR kube-proxy-watch OR kube-sync OR kube2iam OR etcd-backup-operator OR nodegroup-controller OR node-monitoring OR external-dns OR k8s-vault-binding-controller OR cilium-operator)) OR (service:(k8s-platform-cluster-cni OR kube-*)) OR k8s_cluster:*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"build-stable","dailyLimit":400000000,"rateLimited":false,"scopeId":"642","query":"account:build-stable","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"build-unstable","dailyLimit":50000000,"rateLimited":false,"scopeId":"6303","query":"account:build-unstable","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"sre-bourbon","dailyLimit":1000000000,"rateLimited":false,"scopeId":"6794","query":"(team:(sre OR bourbon OR sre-bourbon)  AND (service:haproxy OR source:haproxy OR source:lambda OR source:browser OR source:manager)) OR kube_namespace:sre OR @aws.invoked_function_arn:\"arn:aws:lambda:us-east-1:464622532012:function:sre-bourbon-to-datadog-logs\" -datacenter:us2.prod.dog","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"yuzu","dailyLimit":null,"rateLimited":false,"scopeId":"1862","query":"(service:(alerting-composite-evaluator OR alerting-event-evaluator OR alerting-metric-evaluator OR alerting-metric-query OR alerting-scheduler OR cole OR cutty OR bubs OR cole-sla OR cole-warehouse OR cole-store OR monitor-results-indexer OR uptime-widget-syncer) OR app:alerting-rocky OR alerting-validator) AND  -cluster:*canary* AND -service:*canary* AND -role:*canary*","retention":30,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"yuzu-canary","dailyLimit":700000000,"rateLimited":false,"scopeId":"21814","query":"service:(alerting-composite-evaluator-shadow OR alerting-event-evaluator OR alerting-event-evaluator-shadow OR alerting-metric-evaluator OR alerting-metric-evaluator-canary OR alerting-metric-evaluator-shadow OR alerting-metric-query OR alerting-scheduler OR alerting-scheduler-shadow OR alerting-validator OR cole OR cutty OR bubs OR cole-sla OR cole-warehouse OR cole-store OR monitor-results-indexer) OR app:alerting-metric-evaluator OR (app:cassandra cluster:cassandra-alerting-query-cache-canary)","retention":3,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"monitor-intake","dailyLimit":500000000,"rateLimited":false,"scopeId":"32933","query":"service:(colvin* OR check-run* OR koutris*) AND -cluster:*canary* AND -service:*canary* AND -role:*canary* AND -cluster:*shadow* AND -service:*shadow* AND -role:*shadow*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"monitor-intake-canary","dailyLimit":500000000,"rateLimited":false,"scopeId":"32934","query":"service:(colvin* OR check-run* OR koutris* OR alerting-validator-*) AND (cluster:*canary* OR service:*canary*  OR role:*canary* OR cluster:*shadow* OR service:*shadow* OR role:*shadow* OR service:*validator*)","retention":7,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"sandwich","dailyLimit":150000000,"rateLimited":false,"scopeId":"7102","query":"service:(delancie-correlations OR delancie-sandwich OR delancie-alert-clustering OR synthesizer OR signal-bundler OR signal-event-forwarder)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"burrito","dailyLimit":300000000,"rateLimited":true,"scopeId":"45","query":"(team:processes OR service:process-* OR service:network-logger OR service:network-resolver OR service:container-resolver OR service:network-metric OR service:container-writer OR service:network-resolver OR service:network-logger OR role:cassandra-containers OR kube_namespace:process)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"metrics-query","dailyLimit":700000000,"rateLimited":false,"scopeId":"2401","query":"service:(spidly OR mindy OR royce OR mindy-proxy OR query-cache-cassandra OR service:rocky)","retention":7,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"data-eng","dailyLimit":null,"rateLimited":false,"scopeId":"11722","query":"service:(pg-extracts OR host-pg-extracts OR ctx-pg-extracts OR historical-data-query OR historical-data-query-canary OR livy OR emr-spark-errors OR kafka-connect OR events-extract-kafka-connect OR rawls-extract-kafka-connect OR active-contexts-extract-kafka-connect OR data-eng-cron) OR (general_service:pg-extracts AND -service:consul-template)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"web-integrations","dailyLimit":150000000,"rateLimited":false,"scopeId":"7101","query":"service:(delancie-web_crawler OR delancie-default) OR (kube_deployment:delancie* AND team:web-integrations AND -kube_deployment:delancie-notification-worker) OR (kube_stateful_set:delancie-* AND team:web-integrations AND -app:delancie-notification)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"core-index","dailyLimit":150000000,"rateLimited":false,"scopeId":"22251","query":"service:(host-consumer OR tagdex OR tagdex-client OR feiwriter OR feiwriter-context-cache OR rotom) OR (service:elasticsearch AND app:elasticsearch-hosts)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"eclair","dailyLimit":500000000,"rateLimited":false,"scopeId":"5","query":"service:(delancie-crawler_aws OR delancie-crawler OR delancie-crawlerxl OR gcp-crawler OR delancie-crawler_aws_spillover )      OR  (kube_deployment:delancie* AND team:cloud-integrations) OR (kube_stateful_set:delancie-* AND team:cloud-integrations)","retention":7,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"raclette-staging","dailyLimit":200000000,"rateLimited":false,"scopeId":"58961","query":"-service:trace-agent AND service:(trace-* OR destro OR loom OR resource-writer OR service:synthtracer) AND env:staging","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"raclette","dailyLimit":300000000,"rateLimited":false,"scopeId":"8","query":"-service:trace-agent AND service:(trace-* OR destro OR loom OR resource-writer OR service:synthtracer)","retention":7,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"events-pipeline","dailyLimit":null,"rateLimited":false,"scopeId":"17956","query":"namespace:events-pipeline OR service:(events-indexer OR rate-limiter OR es-events-cron) OR (service:elasticsearch AND role:es-events-*) OR (service:templeton AND templeton_role:(events OR events_overflow))","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"notifications-pipeline","dailyLimit":600000000,"rateLimited":false,"scopeId":"11","query":"service:(templeton OR alerting-state-notifications OR delancie-notification OR alerting-downtime-matcher OR alerting-downtime-matcher-canary OR alerting-downtime-validator OR monitor-state-service OR monitor-results-forwarder OR monitor-state-manager OR monitor-state-manager-benchmark) OR kube_deployment:delancie-notification-worker","retention":30,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"marlo","dailyLimit":60000000,"rateLimited":true,"scopeId":"1981","query":"service:(marlo OR aggr-query-backfill OR marlo-router OR marlo-aggr)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"container-integrations","dailyLimit":1000000000,"rateLimited":false,"scopeId":"42491","query":"service:(datadog-agent OR datadog-cluster-agent OR cluster-agent OR datadog-agent-cluster-worker)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"profiling","dailyLimit":300000000,"rateLimited":false,"scopeId":"36473","query":"team:profiling","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"sketch","dailyLimit":104000000,"rateLimited":false,"scopeId":"74","query":"service:sketch-* OR service:points-sketch-adapter OR service:summary-writer","retention":7,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"synthetics","dailyLimit":500000000,"rateLimited":false,"scopeId":"13602","query":"kube_deployment:synthetics-* OR service:synthetics*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"watchdog","dailyLimit":850000000,"rateLimited":false,"scopeId":"33960","query":"service:delancie-insights OR (app-kubernetes-io-name:delancieinsights AND service:dogweb)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"test-adp","dailyLimit":150000000,"rateLimited":false,"scopeId":"14777","query":"host:i-04466f80f92c7ee0e","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"eng-tools","dailyLimit":100000000,"rateLimited":false,"scopeId":"19125","query":"team:engtools","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"logs-devenv","dailyLimit":200000000,"rateLimited":false,"scopeId":"32606","query":"app:devenv AND (team:logs OR team:devenv-logs)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"logs-dr","dailyLimit":150000000,"rateLimited":false,"scopeId":"25325","query":"team:logs datacenter:us2.prod.dog","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"logs-staging","dailyLimit":null,"rateLimited":false,"scopeId":"54922","query":"team:logs env:staging","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"mcnulty","dailyLimit":6000000000,"rateLimited":false,"scopeId":"14691","query":"service:(mcnulty* OR support-admin)","retention":22,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"billing-auditing","dailyLimit":200000000,"rateLimited":false,"scopeId":"26168","query":"@billing_audit:true","retention":180,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"usage-simulation","dailyLimit":null,"rateLimited":false,"scopeId":"35203","query":"service:usage-simulation*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"logs-monitors-webhook","dailyLimit":null,"rateLimited":false,"scopeId":"53352","query":"service:logs-monitors-webhook @alert_transition:*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"sheepdog","dailyLimit":5000000000,"rateLimited":false,"scopeId":"4","query":"team:(ramen OR logs)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"ses-email","dailyLimit":5000000,"rateLimited":false,"scopeId":"5129","query":"forwardername:lambda-ses-to-datadog-logs","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"enclave","dailyLimit":200000000,"rateLimited":false,"scopeId":"2757","query":"env:(enclave OR gce-enclave)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"gcp","dailyLimit":400000000,"rateLimited":true,"scopeId":"23294","query":"source:gcp*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"browser-agent","dailyLimit":150000000,"rateLimited":false,"scopeId":"20864","query":"source:browser","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"frontend-platform","dailyLimit":500000000,"rateLimited":false,"scopeId":"32712","query":"source:(yarn OR github)","retention":90,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"web-platform","dailyLimit":150000000,"rateLimited":false,"scopeId":"7103","query":"service:(host-consumer OR tagdex OR feiwriter)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"serverless","dailyLimit":500000000,"rateLimited":false,"scopeId":"32106","query":"service:xray-converter","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"dd-events","dailyLimit":null,"rateLimited":false,"scopeId":"35874","query":"(service:dd_events OR @sourcecategory:monitor_alert OR @evt.type:*)","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"bill-usage","dailyLimit":150000000,"rateLimited":false,"scopeId":"37046","query":"app:bill-usage","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"team-aaa","dailyLimit":null,"rateLimited":false,"scopeId":"42503","query":"service:account-settings","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"sheepdog-prod","dailyLimit":2500000000,"rateLimited":false,"scopeId":"1","query":"(short_image:*) OR (service:kubernetes)","retention":7,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"test-atr","dailyLimit":1000000000,"rateLimited":false,"scopeId":"114","query":"\"wubalubadubdub wubalubadubdub wubalubadubdub\"","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"devenv","dailyLimit":null,"rateLimited":false,"scopeId":"54924","query":"kube_namespace:devenv-*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"compliance-mvp","dailyLimit":null,"rateLimited":false,"scopeId":"55474","query":"source:compliance-mvp","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"main","dailyLimit":800000000,"rateLimited":false,"scopeId":"7","query":"*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false}]};
+  }
+
   new Vue({
     render: h => h(__vue_component__, { props: preferences })
   }).$mount(root);
