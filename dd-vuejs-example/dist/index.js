@@ -7660,17 +7660,17 @@ function addStyle(id, css) {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.name))]),_vm._v(" "),(_vm.monitors)?_c('div',{staticStyle:{"height":"100px","overflow":"scroll"}},[_c('select',{domProps:{"value":_vm.selectedMonitor},on:{"change":function($event){return _vm.$emit('update:selectedMonitor', $event.target.value)}}},[_c('option',{attrs:{"disabled":"","value":""}},[_vm._v("Please select one")]),_vm._v(" "),_vm._l((_vm.monitors),function(monitor){return _c('option',{domProps:{"value":monitor.id}},[_vm._v("\n      "+_vm._s(monitor.name)+"\n      ")])})],2),_vm._v(" "),_c('span',[_vm._v("Selected: "+_vm._s(_vm.selectedMonitor))])]):_vm._e()])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.name))]),_vm._v(" "),(_vm.monitors)?_c('div',[_c('select',{domProps:{"value":_vm.selectedMonitor},on:{"change":function($event){return _vm.$emit('update:selectedMonitor', $event.target.value)}}},[_c('option',{attrs:{"disabled":"","value":""}},[_vm._v("Please select one")]),_vm._v(" "),_vm._l((_vm.monitors),function(monitor){return _c('option',{domProps:{"value":monitor.id}},[_vm._v("\n      "+_vm._s(monitor.name)+"\n      ")])})],2),_vm._v(" "),_c('span',[_vm._v("Selected: "+_vm._s(_vm.selectedMonitor))])]):_vm._e()])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-39810d17_0", { source: "h1[data-v-39810d17]{color:#663399}", map: undefined, media: undefined });
+    inject("data-v-7ca20e54_0", { source: "h1[data-v-7ca20e54]{color:#663399}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-39810d17";
+  const __vue_scope_id__ = "data-v-7ca20e54";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */

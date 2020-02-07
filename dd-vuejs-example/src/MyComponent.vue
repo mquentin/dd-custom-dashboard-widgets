@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ name }}</h1>
-    <div v-if="monitors" style="height: 100px;overflow: scroll;">
+    <div v-if="monitors">
       <select :value="selectedMonitor" @change="$emit('update:selectedMonitor', $event.target.value)">
         <option disabled value="">Please select one</option>
         <option v-for="monitor in monitors" :value="monitor.id">
