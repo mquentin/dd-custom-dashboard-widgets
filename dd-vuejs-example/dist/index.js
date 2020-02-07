@@ -7504,6 +7504,25 @@ if (inBrowser) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
     
 var script = {
@@ -7513,12 +7532,16 @@ var script = {
     },
     logIndex:{
       default: {}
+    },
+    monitors:{
+      default: {}
     }
   },
   data() {
     return { 
       dTitle: this.title, 
-      dLogIndex: this.logIndex
+      dLogIndex: this.logIndex,
+      dMonitors: this.monitors
       };
   },
   mounted () {
@@ -7526,6 +7549,11 @@ var script = {
       .then(response => response.json())
       .then(json => {
         this.dLogIndex = json;
+    });
+    fetch(`/api/v1/monitor/search?start=0&count=50`)
+      .then(response => response.json())
+      .then(json => {
+        this.monitors = json;
     });
   }
 };
@@ -7662,17 +7690,17 @@ function addStyle(id, css) {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.dTitle))]),_vm._v(" "),_c('ul',{attrs:{"id":"example-1"}},_vm._l((_vm.dLogIndex.indexes),function(l){return _c('li',{key:l.scopeId},[_vm._v("\n        "+_vm._s(l.name)+"\n          "),_c('ul',[_c('li',[_vm._v("\n                 "+_vm._s(l.query)+"\n              ")])])])}),0)])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.dTitle))]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/monitor/search?start=0&count=50")]),_vm._v(" "),_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-1"}},[_c('ul',_vm._l((_vm.dMonitors.monitors),function(m){return _c('li',{key:m.id},[_vm._v("\n          "+_vm._s(m.id)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(m.creator)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.query)+"\n                ")])])])}),0)]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/logs/indexes?type=logs")]),_vm._v(" "),_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-2"}},[_c('ul',_vm._l((_vm.dLogIndex.indexes),function(l){return _c('li',{key:l.scopeId},[_vm._v("\n          "+_vm._s(l.name)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(l.query)+"\n                ")])])])}),0)])])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-ef594ab2_0", { source: "h1[data-v-ef594ab2]{color:#663399}", map: undefined, media: undefined });
+    inject("data-v-36409ec3_0", { source: "h1[data-v-36409ec3]{color:#663399}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-ef594ab2";
+  const __vue_scope_id__ = "data-v-36409ec3";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
@@ -7701,10 +7729,10 @@ function render(root, preferences) {
   if(!preferences || !preferences.logIndex){
     preferences = {};
 
-    preferences.title = "/api/v1/logs/indexes?type=logs";
+    preferences.title = "Custom widget title";
 
-    //preferences.logIndex = (await fetch("/api/v1/logs/indexes?type=logs")).json();
     preferences.logIndex = {"locked":false,"historicalIndexes":[{"from":"2019-11-01T04:00:00Z","readDataAccess":true,"scopeId":"690221","name":"AAA","to":"2020-02-06T22:00:00Z"}],"indexes":[{"name":"AAA","dailyLimit":2500000000,"rateLimited":false,"scopeId":"1","query":"(short_image:*) OR (service:kubernetes)","retention":7,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"test-AAA","dailyLimit":1000000000,"rateLimited":false,"scopeId":"114","query":"\"wubalubadubdub wubalubadubdub wubalubadubdub\"","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"AAA","dailyLimit":null,"rateLimited":false,"scopeId":"54924","query":"AAA:devenv-*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"AAA","dailyLimit":null,"rateLimited":false,"scopeId":"55474","query":"source:compliance-mvp","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"AAA","dailyLimit":800000000,"rateLimited":false,"scopeId":"7","query":"*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false}]};
+    preferences.monitors = {"counts": {}, "monitors":[{"status":"Alert","scopes":["*"],"classification":"metric","creator":{"handle":"TESTTEST@test.com","id":283348,"name":"test test"},"overall_state_modified":1571230111,"metrics":["system.load.5"],"notifications":[],"last_triggered_ts":1571230084,"query":"avg(last_1h):avg:system.load.5{*} > 2","id":12179104,"name":"Test","tags":[],"org_id":2,"type":"metric alert"}]};
   }
 
   new Vue({
