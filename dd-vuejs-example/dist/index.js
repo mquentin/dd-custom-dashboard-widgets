@@ -7503,27 +7503,62 @@ if (inBrowser) {
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var script = {
   props: {
-    name: {
-      default: "Custom widget title"
+    background: {
+      default: ""
+    },
+    title: {
+      default: "My super widget"
     },
     selectedMonitor: Number
   },
   data() {
     return {
       monitors: null,
+      monitor: null
     };
   },
-  mounted () {
+  mounted() {
     this.fetchMonitors();
+    if (this.selectedMonitor) {
+      this.fetchMonitor(this.selectedMonitor);
+    }
   },
   methods: {
-    async fetchMonitors () {
-      const response = await fetch(`/api/v1/monitor/search?start=0&count=50`);
+    async fetchMonitors() {
+      const response = await fetch(
+        `/api/v1/monitor/search?start=0&count=50&text=type:metric`
+      );
       this.monitors = (await response.json()).monitors;
+    },
+
+    async fetchMonitor(id) {
+      const response = await fetch(`/api/v1/monitor/${id}`);
+      this.monitor = await response.json();
+    }
+  },
+  computed: {
+    bgStyle() {
+      return {
+        backgroundImage: `url(${this.background})`
+      };
     }
   }
 };
@@ -7660,17 +7695,18 @@ function addStyle(id, css) {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.name))]),_vm._v(" "),(_vm.monitors)?_c('div',{staticStyle:{"height":"100px","overflow":"scroll"}},[_c('select',{domProps:{"value":_vm.selectedMonitor},on:{"change":function($event){return _vm.$emit('update:selectedMonitor', $event.target.value)}}},[_c('option',{attrs:{"disabled":"","value":""}},[_vm._v("Please select one")]),_vm._v(" "),_vm._l((_vm.monitors),function(monitor){return _c('option',{domProps:{"value":monitor.id}},[_vm._v("\n      "+_vm._s(monitor.name)+"\n      ")])})],2),_vm._v(" "),_c('span',[_vm._v("Selected: "+_vm._s(_vm.selectedMonitor))])]):_vm._e()])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dd-vue-widget",style:(_vm.bgStyle)},[_c('h1',[_vm._v(_vm._s(_vm.title))]),_vm._v(" "),(_vm.monitors)?_c('div',[_c('p',[_vm._v("Select a monitor:")]),_vm._v(" "),_c('p',[_c('select',{staticStyle:{"width":"80%"},domProps:{"value":_vm.selectedMonitor},on:{"change":function($event){_vm.$emit('update:selectedMonitor', $event.target.value);
+          _vm.fetchMonitor($event.target.value);}}},[_c('option',{attrs:{"disabled":"","value":""}},[_vm._v("Please select one")]),_vm._v(" "),_vm._l((_vm.monitors),function(monitor){return _c('option',{domProps:{"value":monitor.id}},[_vm._v("\n          "+_vm._s(monitor.name)+"\n        ")])})],2)]),_vm._v(" "),(_vm.monitor && _vm.monitor.id > 0)?[_c('p',[_vm._v("Selected: "+_vm._s(_vm.selectedMonitor))]),_vm._v(" "),_c('h2',[_vm._v(_vm._s(_vm.monitor.name))]),_vm._v(" "),_c('p',[_vm._v("Created by "+_vm._s(_vm.monitor.creator.name))]),_vm._v(" "),_c('p',[_vm._v("Status: "+_vm._s(_vm.monitor.overall_state))])]:_vm._e()],2):_vm._e()])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-c3bcfce0_0", { source: "h1[data-v-c3bcfce0]{color:#663399}", map: undefined, media: undefined });
+    inject("data-v-7b6d0a1b_0", { source: "h1[data-v-7b6d0a1b],h2[data-v-7b6d0a1b],h3[data-v-7b6d0a1b]{color:#663399}.dd-vue-widget[data-v-7b6d0a1b]{padding:10px;position:absolute;top:0;bottom:0;left:0;right:0;background-size:cover}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-c3bcfce0";
+  const __vue_scope_id__ = "data-v-7b6d0a1b";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
@@ -7703,8 +7739,8 @@ function render(root, api) {
     Object.assign(vm.$props, newPreferences);
   });
 
-  vm.$on('update:selectedMonitor', (selectedMonitor) => {
-    api.setPreference('selectedMonitor', selectedMonitor);
+  vm.$on("update:selectedMonitor", selectedMonitor => {
+    api.setPreference("selectedMonitor", selectedMonitor);
   });
 
   api.onDestroy(() => {
@@ -7712,6 +7748,9 @@ function render(root, api) {
   });
 }
 
-const preferencesDefinition = [{ name: "name", default: "Custom widget title" }];
+const preferencesDefinition = [
+  { name: "background", default: "" },
+  { name: "title", default: "My super widget" }
+];
 
 export { preferencesDefinition, render };
