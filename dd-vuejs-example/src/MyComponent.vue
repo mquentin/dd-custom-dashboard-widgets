@@ -30,6 +30,13 @@ export default {
       dTitle: this.title, 
       dLogIndex: this.logIndex
       };
+  },
+  mounted () {
+    fetch(`/api/v1/logs/indexes?type=logs`)
+      .then(response => response.json())
+      .then(json => {
+        this.dLogIndex = json;
+    });
   }
 };
 </script>
