@@ -7534,35 +7534,25 @@ var script = {
     name: {
       default: "Custom widget title"
     },
-    logIndex:{
-      default: {}
-    },
-    monitors:{
-      default: {}
-    }
   },
   data() {
-    return { 
-      dName: this.name, 
-      dLogIndex: this.logIndex,
-      dMonitors: this.monitors
-      };
+    return {
+      dName: this.name,
+      dLogIndex: null,
+      dMonitors: null,
+    };
   },
   mounted () {
-    fetch(`/api/v1/logs/indexes?type=logs`)
-      .then(response => response.json())
-      .then(json => {
-        this.dLogIndex = json;
-    });
     this.fetchMonitors();
   },
   methods: {
-    fetchMonitors: function () {
-      fetch(`/api/v1/monitor/search?start=0&count=50`)
-        .then(response => response.json())
-        .then(json => {
-          this.dMonitors = json;
-      });
+    async fetchLogs() {
+      const response = await fetch(`/api/v1/logs/indexes?type=logs`);
+      this.dLogIndex = await response.json();
+    },
+    async fetchMonitors () {
+      const response = await fetch(`/api/v1/monitor/search?start=0&count=50`);
+      this.dMonitors = await response.json();
     }
   }
 };
@@ -7699,17 +7689,17 @@ function addStyle(id, css) {
 const __vue_script__ = script;
 
 /* template */
-var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.dName))]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/monitor/search?start=0&count=50")]),_vm._v(" "),_c('button',{on:{"click":_vm.fetchMonitors}},[_vm._v("Refresh")]),_vm._v(" "),_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-1"}},[_c('ul',_vm._l((_vm.dMonitors.monitors),function(m){return _c('li',{key:m.id},[_vm._v("\n          "+_vm._s(m.id)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(m.status)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.creator)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.query)+"\n                ")])])])}),0)]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/logs/indexes?type=logs")]),_vm._v(" "),_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-2"}},[_c('ul',_vm._l((_vm.dLogIndex.indexes),function(l){return _c('li',{key:l.scopeId},[_vm._v("\n          "+_vm._s(l.name)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(l.query)+"\n                ")])])])}),0)])])};
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('h1',[_vm._v(_vm._s(_vm.dName))]),_vm._v(" "),_c('h2',[_vm._v("/api/v1/monitor/search?start=0&count=50")]),_vm._v(" "),_c('button',{on:{"click":_vm.fetchMonitors}},[_vm._v("Refresh")]),_vm._v(" "),(_vm.dMonitors)?_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-1"}},[_c('ul',_vm._l((_vm.dMonitors.monitors),function(m){return _c('li',{key:m.id},[_vm._v("\n          "+_vm._s(m.id)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(m.status)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.creator)+"\n                ")]),_vm._v(" "),_c('li',[_vm._v("\n                  "+_vm._s(m.query)+"\n                ")])])])}),0)]):_vm._e(),_vm._v(" "),_c('h2',[_vm._v("/api/v1/logs/indexes?type=logs")]),_vm._v(" "),(_vm.dLogIndex)?_c('div',{staticStyle:{"height":"100px","overflow":"scroll"},attrs:{"id":"example-2"}},[_c('ul',_vm._l((_vm.dLogIndex.indexes),function(l){return _c('li',{key:l.scopeId},[_vm._v("\n          "+_vm._s(l.name)+"\n            "),_c('ul',[_c('li',[_vm._v("\n                  "+_vm._s(l.query)+"\n                ")])])])}),0)]):_vm._e()])};
 var __vue_staticRenderFns__ = [];
 
   /* style */
   const __vue_inject_styles__ = function (inject) {
     if (!inject) return
-    inject("data-v-328f5273_0", { source: "h1[data-v-328f5273]{color:#663399}", map: undefined, media: undefined });
+    inject("data-v-3b63ce52_0", { source: "h1[data-v-3b63ce52]{color:#663399}", map: undefined, media: undefined });
 
   };
   /* scoped */
-  const __vue_scope_id__ = "data-v-328f5273";
+  const __vue_scope_id__ = "data-v-3b63ce52";
   /* module identifier */
   const __vue_module_identifier__ = undefined;
   /* functional template */
@@ -7733,20 +7723,18 @@ var __vue_staticRenderFns__ = [];
     undefined
   );
 
-function render(root, preferences) {
-  if(!preferences){
-    preferences = {};
-  }
-  if(!preferences.logIndex){
-    preferences.logIndex = {"locked":false,"historicalIndexes":[{"from":"2019-11-01T04:00:00Z","readDataAccess":true,"scopeId":"690221","name":"AAA","to":"2020-02-06T22:00:00Z"}],"indexes":[{"name":"AAA","dailyLimit":2500000000,"rateLimited":false,"scopeId":"1","query":"(short_image:*) OR (service:kubernetes)","retention":7,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"test-AAA","dailyLimit":1000000000,"rateLimited":false,"scopeId":"114","query":"\"wubalubadubdub wubalubadubdub wubalubadubdub\"","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false},{"name":"AAA","dailyLimit":null,"rateLimited":false,"scopeId":"54924","query":"AAA:devenv-*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"AAA","dailyLimit":null,"rateLimited":false,"scopeId":"55474","query":"source:compliance-mvp","retention":15,"readDataAccess":true,"dailyQuotaDisabled":true},{"name":"AAA","dailyLimit":800000000,"rateLimited":false,"scopeId":"7","query":"*","retention":15,"readDataAccess":true,"dailyQuotaDisabled":false}]};  
-  }
-  if(!preferences.monitors){
-    preferences.monitors = {"counts": {}, "monitors":[{"status":"Alert","scopes":["*"],"classification":"metric","creator":{"handle":"TESTTEST@test.com","id":283348,"name":"test test"},"overall_state_modified":1571230111,"metrics":["system.load.5"],"notifications":[],"last_triggered_ts":1571230084,"query":"avg(last_1h):avg:system.load.5{*} > 2","id":12179104,"name":"Test","tags":[],"org_id":2,"type":"metric alert"}]};
-  }
+const MyComponentClass = Vue.extend(__vue_component__);
 
-  new Vue({
-    render: h => h(__vue_component__, { props: preferences })
-  }).$mount(root);
+function render(root, api) {
+  const vm = new MyComponentClass({ propsData: api.preferences }).$mount(root);
+
+  api.onPreferencesChange(newPreferences => {
+    Object.assign(vm.$props, newPreferences);
+  });
+
+  api.onDestroy(() => {
+    vm.$destroy();
+  });
 }
 
 const preferencesDefinition = [{ name: "name", default: "Custom widget title" }];
