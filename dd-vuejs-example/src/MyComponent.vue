@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{ dTitle }}</h1>
+    <h1>{{ dName }}</h1>
       <h2>/api/v1/monitor/search?start=0&count=50</h2>
       <button v-on:click="fetchMonitors">Refresh</button>
       <div id="example-1" style="height: 100px;overflow: scroll;">
@@ -41,8 +41,8 @@
     
 export default {
   props: {
-    title: {
-      default: "Title"
+    name: {
+      default: "Custom widget title"
     },
     logIndex:{
       default: {}
@@ -53,7 +53,7 @@ export default {
   },
   data() {
     return { 
-      dTitle: this.title, 
+      dName: this.name, 
       dLogIndex: this.logIndex,
       dMonitors: this.monitors
       };
