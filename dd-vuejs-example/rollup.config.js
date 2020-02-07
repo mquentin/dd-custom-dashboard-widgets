@@ -22,7 +22,7 @@ if (isWatch) {
     open: true,
     host: 'localhost',
     port: 10001,
-    openPage: '/index.js',
+    openPage: '/index.html',
     contentBase: ['dist']
   }))
 }
